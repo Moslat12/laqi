@@ -1,4 +1,7 @@
-import { supabase } from './supabase'
+import { supabase as supabaseTyped } from './supabase'
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const supabase = supabaseTyped as any
 
 export interface Player {
   id: string
