@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Google Fonts - Tajawal (Arabic) */
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap');
+
+/* Qahwa Arabic - للوجو */
+@font-face {
+  font-family: 'QahwaArabic';
+  src: url('/fonts/Qahwa-Arabic-Salt.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    direction: rtl;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background-color: #0a0a0f;
+    color: #e2e8f0;
+    overflow-x: hidden;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #06060a;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #1e1e2e;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #00ff88;
+  }
+}
+
+@layer components {
+  /* Neon Button */
+  .btn-neon {
+    @apply px-6 py-3 rounded-xl font-bold text-laqi-dark bg-laqi-neon
+           transition-all duration-300 hover:shadow-neon hover:scale-105
+           active:scale-95;
+  }
+
+  .btn-neon-outline {
+    @apply px-6 py-3 rounded-xl font-bold text-laqi-neon border-2 border-laqi-neon
+           bg-transparent transition-all duration-300 hover:bg-laqi-neon hover:text-laqi-dark
+           hover:shadow-neon active:scale-95;
+  }
+
+  /* Game Card */
+  .game-card {
+    @apply bg-laqi-card border border-laqi-border rounded-2xl p-6
+           transition-all duration-300 hover:border-laqi-neon/50 hover:shadow-neon-sm
+           hover:-translate-y-1 cursor-pointer;
+  }
+
+  /* Glass Card */
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl;
+  }
+
+  /* Neon Text */
+  .text-neon-glow {
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.5), 0 0 20px rgba(0, 255, 136, 0.3);
+  }
+
+  /* Input Styles */
+  .input-dark {
+    @apply w-full px-4 py-3 bg-laqi-darker border border-laqi-border rounded-xl
+           text-laqi-text placeholder:text-laqi-muted focus:outline-none
+           focus:border-laqi-neon/50 focus:ring-1 focus:ring-laqi-neon/30
+           transition-all duration-300;
+  }
+}
+
+@layer utilities {
+  /* Background Gradient */
+  .bg-gradient-radial {
+    background: radial-gradient(ellipse at top, rgba(0, 255, 136, 0.05) 0%, transparent 50%);
+  }
+
+  /* Animated background dots */
+  .bg-dots {
+    background-image: radial-gradient(rgba(0, 255, 136, 0.1) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+}

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لاقي — العب مع ربعك | معاينة</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --dark: #0a0a0f;
+      --darker: #06060a;
+      --card: #12121a;
+      --border: #1e1e2e;
+      --neon: #00ff88;
+      --neon-dim: #00cc6a;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--darker); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--neon); }
+
+    /* Navbar */
+    .navbar {
+      position: fixed; top: 0; right: 0; left: 0; z-index: 50;
+      background: rgba(6,6,10,0.8);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1280px; margin: 0 auto; padding: 0 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .logo { font-size: 1.5rem; font-weight: 900; color: var(--neon); text-decoration: none;
+      text-shadow: 0 0 10px rgba(0,255,136,0.5), 0 0 20px rgba(0,255,136,0.3); }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a { color: var(--muted); text-decoration: none; transition: color 0.3s; }
+    .nav-links a:hover { color: var(--neon); }
+    .nav-btns { display: flex; gap: 0.75rem; }
+
+    /* Buttons */
+    .btn-neon {
+      padding: 0.75rem 1.5rem; border-radius: 0.75rem; font-weight: 700;
+      color: var(--dark); background: var(--neon); border: none; cursor: pointer;
+      transition: all 0.3s; text-decoration: none; display: inline-block; font-family: inherit;
+    }
+    .btn-neon:hover { box-shadow: 0 0 20px rgba(0,255,136,0.3), 0 0 40px rgba(0,255,136,0.1); transform: scale(1.05); }
+    .btn-neon:active { transform: scale(0.95); }
+
+    .btn-outline {
+      padding: 0.75rem 1.5rem; border-radius: 0.75rem; font-weight: 700;
+      color: var(--neon); background: transparent; border: 2px solid var(--neon); cursor: pointer;
+      transition: all 0.3s; text-decoration: none; display: inline-block; font-family: inherit;
+    }
+    .btn-outline:hover { background: var(--neon); color: var(--dark); box-shadow: 0 0 20px rgba(0,255,136,0.3); }
+
+    /* Hero */
+    .hero {
+      position: relative; padding: 8rem 1rem 5rem; text-align: center; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at top, rgba(0,255,136,0.05) 0%, transparent 50%);
+    }
+    .hero::after {
+      content: ''; position: absolute; inset: 0; opacity: 0.3;
+      background-image: radial-gradient(rgba(0,255,136,0.1) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.5rem 1rem; border-radius: 9999px;
+      background: rgba(0,255,136,0.1); border: 1px solid rgba(0,255,136,0.2);
+      color: var(--neon); font-size: 0.875rem; margin-bottom: 2rem;
+    }
+    .badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--neon); animation: pulse 2s infinite; }
+
+    .hero h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 900; margin-bottom: 1.5rem; line-height: 1.2; }
+    .hero h1 .neon {
+      color: var(--neon);
+      text-shadow: 0 0 10px rgba(0,255,136,0.5), 0 0 20px rgba(0,255,136,0.3);
+    }
+    .hero p { font-size: 1.25rem; color: var(--muted); max-width: 600px; margin: 0 auto 2.5rem; line-height: 1.8; }
+
+    .hero-btns { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+    .hero-btns .btn-neon, .hero-btns .btn-outline { font-size: 1.125rem; padding: 1rem 2rem; }
+
+    .stats {
+      display: flex; align-items: center; justify-content: center; gap: 3rem;
+      margin-top: 4rem;
+    }
+    .stat { text-align: center; }
+    .stat-num { font-size: 1.75rem; font-weight: 900; color: var(--neon); }
+    .stat-label { font-size: 0.875rem; color: var(--muted); }
+    .stat-divider { width: 1px; height: 40px; background: var(--border); }
+
+    /* Games Section */
+    .section { padding: 5rem 1rem; }
+    .section-dark { background: rgba(6,6,10,0.5); }
+    .section-inner { max-width: 1280px; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 3rem; }
+    .section-header h2 { font-size: 2rem; font-weight: 900; margin-bottom: 1rem; }
+    .section-header p { color: var(--muted); max-width: 500px; margin: 0 auto; }
+
+    .games-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;
+    }
+
+    .game-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 1rem;
+      padding: 1.5rem; transition: all 0.3s; cursor: pointer;
+    }
+    .game-card:hover { border-color: rgba(0,255,136,0.5); box-shadow: 0 0 10px rgba(0,255,136,0.2); transform: translateY(-4px); }
+
+    .game-icon {
+      width: 56px; height: 56px; border-radius: 0.75rem; display: flex; align-items: center;
+      justify-content: center; font-size: 1.5rem; margin-bottom: 1rem;
+    }
+    .game-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; transition: color 0.3s; }
+    .game-card:hover h3 { color: var(--neon); }
+    .game-card p { color: var(--muted); font-size: 0.875rem; line-height: 1.6; margin-bottom: 1rem; }
+    .game-players { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: var(--muted); }
+
+    /* Features */
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
+    .feature { text-align: center; padding: 1.5rem; }
+    .feature-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .feature h3 { font-size: 1.125rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .feature p { color: var(--muted); font-size: 0.875rem; }
+
+    /* CTA */
+    .cta-card {
+      max-width: 600px; margin: 0 auto; text-align: center;
+      background: rgba(255,255,255,0.05); backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 1rem; padding: 3rem;
+    }
+    .cta-card h2 { font-size: 1.75rem; font-weight: 900; margin-bottom: 1rem; }
+    .cta-card p { color: var(--muted); margin-bottom: 2rem; }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border); background: var(--darker); padding: 2rem 1rem;
+    }
+    .footer-inner {
+      max-width: 1280px; margin: 0 auto;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;
+    }
+    .footer-brand { display: flex; align-items: center; gap: 0.5rem; }
+    .footer-brand span:first-child { font-size: 1.25rem; font-weight: 900; color: var(--neon); }
+    .footer-brand span:last-child { font-size: 0.875rem; color: var(--muted); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.875rem; transition: color 0.3s; }
+    .footer-links a:hover { color: var(--neon); }
+    .footer-copy { color: var(--muted); font-size: 0.875rem; }
+
+    /* Animations */
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    .animate-fade { animation: fadeIn 0.6s ease-out; }
+    .animate-slide { animation: slideUp 0.6s ease-out; }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .nav-links, .nav-btns { display: none; }
+      .stats { gap: 1.5rem; }
+      .stat-num { font-size: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="#" class="logo">لاقي</a>
+      <div class="nav-links">
+        <a href="#games">الألعاب</a>
+        <a href="#">الغرف</a>
+        <a href="#">حسابي</a>
+      </div>
+      <div class="nav-btns">
+        <a href="#" class="btn-outline" style="padding:0.5rem 1rem;font-size:0.875rem;">دخول</a>
+        <a href="#" class="btn-neon" style="padding:0.5rem 1rem;font-size:0.875rem;">حساب جديد</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="badge animate-fade">
+        <span class="badge-dot"></span>
+        منصة ألعاب عربية جديدة
+      </div>
+
+      <h1 class="animate-slide">العب مع <span class="neon">ربعك</span></h1>
+
+      <p class="animate-slide" style="animation-delay:0.1s">
+        ألعاب كتابية جماعية بالعربي. ادخل، ادعُ أصحابك، والعبوا مع بعض!
+      </p>
+
+      <div class="hero-btns animate-slide" style="animation-delay:0.2s">
+        <a href="#games" class="btn-neon">ابدأ اللعب</a>
+        <a href="#" class="btn-outline">ادخل غرفة</a>
+      </div>
+
+      <div class="stats animate-fade" style="animation-delay:0.3s">
+        <div class="stat">
+          <div class="stat-num">5</div>
+          <div class="stat-label">ألعاب</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <div class="stat-num">∞</div>
+          <div class="stat-label">مرح</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <div class="stat-num">0</div>
+          <div class="stat-label">تحميل</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Games -->
+  <section class="section" id="games">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2>الألعاب</h2>
+        <p>اختر لعبتك المفضلة وابدأ التحدي مع ربعك</p>
+      </div>
+
+      <div class="games-grid">
+        <div class="game-card">
+          <div class="game-icon" style="background:rgba(34,197,94,0.2)">🔤</div>
+          <h3>تخمين الكلمة</h3>
+          <p>خمّن الكلمة العربية في 6 محاولات. كل يوم كلمة جديدة!</p>
+          <div class="game-players">👥 فردي / تحدي</div>
+        </div>
+
+        <div class="game-card">
+          <div class="game-icon" style="background:rgba(168,85,247,0.2)">🎭</div>
+          <h3>من الكذاب؟</h3>
+          <p>واحد يكذب والباقين يحاولون يكشفونه. من تشك فيه؟</p>
+          <div class="game-players">👥 3 - 8 لاعبين</div>
+        </div>
+
+        <div class="game-card">
+          <div class="game-icon" style="background:rgba(59,130,246,0.2)">📖</div>
+          <h3>القصة التعاونية</h3>
+          <p>كل لاعب يضيف جملة بالدور. شوف وين توصل القصة!</p>
+          <div class="game-players">👥 2 - 10 لاعبين</div>
+        </div>
+
+        <div class="game-card">
+          <div class="game-icon" style="background:rgba(251,191,36,0.2)">🏳️</div>
+          <h3>أعلام العالم</h3>
+          <p>شوف العلم وخمّن الدولة. اختبر معلوماتك الجغرافية!</p>
+          <div class="game-players">👥 فردي / جماعي</div>
+        </div>
+
+        <div class="game-card">
+          <div class="game-icon" style="background:rgba(239,68,68,0.2)">🧠</div>
+          <h3>أسئلة عامة</h3>
+          <p>تنافس مع ربعك في أسئلة معلومات عامة متنوعة.</p>
+          <div class="game-players">👥 2 - 20 لاعب</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="section section-dark">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2>ليش لاقي؟</h2>
+      </div>
+      <div class="features-grid">
+        <div class="feature">
+          <div class="feature-icon">⚡</div>
+          <h3>سريع وخفيف</h3>
+          <p>يشتغل على الجوال والكمبيوتر بدون تحميل</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🎮</div>
+          <h3>ألعاب متنوعة</h3>
+          <p>5 ألعاب مختلفة تناسب كل الأذواق</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">👥</div>
+          <h3>العب مع ربعك</h3>
+          <p>ادعُ أصحابك بكود وابدأوا اللعب فوراً</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🏆</div>
+          <h3>تنافس وتصدّر</h3>
+          <p>اجمع نقاط وتصدّر ليدربورد</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="cta-card">
+      <h2>جاهز تلعب؟</h2>
+      <p>سجّل حسابك وابدأ اللعب مع ربعك الحين!</p>
+      <a href="#" class="btn-neon" style="font-size:1.125rem;padding:1rem 2rem;">سجّل مجاناً</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span>لاقي</span>
+        <span>— العب مع ربعك</span>
+      </div>
+      <div class="footer-links">
+        <a href="#">الألعاب</a>
+        <a href="#">عن لاقي</a>
+        <a href="#">الخصوصية</a>
+      </div>
+      <div class="footer-copy">© 2026 لاقي. جميع الحقوق محفوظة</div>
+    </div>
+  </footer>
+</body>
+</html>
