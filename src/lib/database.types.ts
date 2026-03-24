@@ -50,32 +50,30 @@ export type Database = {
       rooms: {
         Row: {
           id: string
-          code: string // كود الدعوة (6 أحرف)
-          host_id: string
-          game_type: 'wordle' | 'liar' | 'story' | 'flags' | 'trivia'
-          status: 'waiting' | 'playing' | 'finished'
-          max_players: number
-          current_round: number
-          settings: Record<string, unknown>
+          code: string
+          game_type: string
+          host_nickname: string
+          status: string
+          game_state: Record<string, unknown>
+          players: Record<string, unknown>[]
           created_at: string
           updated_at: string
         }
         Insert: {
           id?: string
           code: string
-          host_id: string
-          game_type: 'wordle' | 'liar' | 'story' | 'flags' | 'trivia'
-          status?: 'waiting' | 'playing' | 'finished'
-          max_players?: number
-          current_round?: number
-          settings?: Record<string, unknown>
+          game_type: string
+          host_nickname: string
+          status?: string
+          game_state?: Record<string, unknown>
+          players?: Record<string, unknown>[]
           created_at?: string
           updated_at?: string
         }
         Update: {
-          status?: 'waiting' | 'playing' | 'finished'
-          current_round?: number
-          settings?: Record<string, unknown>
+          status?: string
+          game_state?: Record<string, unknown>
+          players?: Record<string, unknown>[]
           updated_at?: string
         }
       }
