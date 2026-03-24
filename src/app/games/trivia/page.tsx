@@ -70,7 +70,7 @@ function TriviaGame({ roomCode, playerId }: { roomCode: string; playerId: string
   // الهوست: تجهيز ترتيب الأسئلة عشوائياً
   useEffect(() => {
     if (!isHost || !room || gamePhase !== 'init') return
-    const shuffled = [...Array(QUESTIONS.length).keys()].sort(() => Math.random() - 0.5).slice(0, QUESTIONS_PER_ROUND)
+    const shuffled = Array.from({ length: QUESTIONS.length }, (_, i) => i).sort(() => Math.random() - 0.5).slice(0, QUESTIONS_PER_ROUND)
     updateRoomState(roomCode, {
       phase: 'question',
       questionIdx: 0,

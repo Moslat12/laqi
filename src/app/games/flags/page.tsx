@@ -75,7 +75,7 @@ function FlagsGame({ roomCode, playerId }: { roomCode: string; playerId: string 
   // تجهيز اللعبة
   useEffect(() => {
     if (!isHost || !room || gamePhase !== 'init') return
-    const shuffled = [...Array(FLAGS.length).keys()].sort(() => Math.random() - 0.5).slice(0, ROUNDS)
+    const shuffled = Array.from({ length: FLAGS.length }, (_, i) => i).sort(() => Math.random() - 0.5).slice(0, ROUNDS)
     updateRoomState(roomCode, {
       phase: 'round',
       roundIdx: 0,
